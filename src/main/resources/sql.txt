@@ -1,0 +1,1 @@
+insert into users(iin, full_name, email, password, role_id) values('000930500287', 'Turgunov Bexultan', 'b.turgunov@astanait.edu.kz', '$2y$12$.k7E45.LqcO7MUfhJU0ObuYLySrplCYxS7VatqyJYM/TEs3T.GeVm', 3)

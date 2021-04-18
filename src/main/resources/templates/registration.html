@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+  <title>Registration page</title>
+</head>
+<body>
+<header th:insert="fragments/general.html :: header"></header>
+<div class="container">
+  <div class="row">
+    <div class="col-4 offset-4">
+      <form th:action="@{/user/admin/register}" th:method="POST" th:object="${user}" class="mt-5">
+        <div class="form-group">
+          <label for="iin">ЖСН</label>
+          <input type="text" class="form-control" id="iin" th:field="*{iin}">
+        </div>
+        <div class="form-group">
+          <label for="full_name">Аты-жөні</label>
+          <input type="text" class="form-control" id="full_name" th:field="*{fullName}">
+        </div>
+        <div class="form-group">
+          <label for="email">Электронды почта</label>
+          <input type="email" class="form-control" id="email" th:field="*{email}">
+        </div>
+        <div class="form-group">
+          <label for="password">Құпия сөз</label>
+          <input type="password" class="form-control" id="password" th:field="*{password}">
+        </div>
+        <div class="form-group">
+          <label for="role">Роль</label>
+          <select class="form-control" id="role" th:field="*{role}">
+            <option th:value="${role.getId()}" th:each="role: ${roles}" th:text="${role.getName().substring(5)}"></option>
+          </select>
+        </div>
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+        <button type="submit" class="btn btn-primary">Тіркеу</button>
+      </form>
+    </div>
+  </div>
+</div>
+</body>
+</html>
