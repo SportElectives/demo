@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link th:insert="fragments/general.html :: bootstrapcss">
+    <title>Admin</title>
+</head>
+<body>
+<header th:insert="fragments/general.html :: header"></header>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <a href="/user/admin/register">Регистрация</a>
+            <a href="/user/admin/elective/register">Элективы</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

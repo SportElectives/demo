@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <link th:insert="fragments/general.html :: bootstrapcss">
+    <title>Elective</title>
+</head>
+<body>
+<header th:insert="fragments/general.html :: header"></header>
+<div class="container">
+    <div class="row">
+        <div class="col text-center" th:if="${elective == null}">
+            <h2 class="h2">404 Page Not Found</h2>
+        </div>
+
+        <div sec:authorize="hasRole('ROLE_INSTRUCTOR')" class="col-6 offset-3" th:if="${elective != null}">
+            <form th:action="@{/elective/update/{id}/instructor(id=${elective.getId()})}" th:method="POST" th:object="${elective}" class="mt-5">
+                <div class="form-group">
+                    <label for="name">Атауы</label>
+                    <input type="text" class="form-control" disabled id="name" th:field="*{name}">
+                </div>
+                <div class="form-group">
+                    <label for="limit">Оқушылар саны</label>
+                    <input type="number" class="form-control" disabled id="limit" th:field="*{pupilLimit}">
+                </div>
+                <div class="form-group" >
+                    <label for="day">Day</label>
+                    <select class="form-control" id="day" name="day">
+                        <option value="Monday">Monday</option>
+                        <option value="Tuesday">Tuesday</option>
+                        <option value="Wednesday">Wednesday</option>
+                        <option value="Thursday">Thursday</option>
+                        <option value="Friday">Friday</option>
+                    </select>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label for="hour">Hour</label>
+                        <select class="form-control" name="hour" id="hour">
+                            <option th:each="i: ${#numbers.sequence(9, 18)}" th:value="${i}" th:text="${i}"></option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label for="minute">Minute</label>
+                        <select size="1" class="form-control" name="minute" id="minute">
+                            <option th:each="i: ${#numbers.sequence(0, 59)}" th:value="${i}" th:text="${i} < 10 ? '0'+${i} : ${i}"></option>
+                        </select>
+                    </div>
+                </div>
+                <br>
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+
+        <div sec:authorize="hasRole('ROLE_ADMIN')" class="col-6 offset-3" th:if="${elective != null}">
+            <form th:action="@{/elective/update/{id}/admin(id=${elective.getId()})}" th:method="POST" th:object="${elective}" class="mt-5">
+                <div class="form-group">
+                    <label for="nameA">Атауы</label>
+                    <input type="text" class="form-control" disabled id="nameA" th:field="*{name}">
+                </div>
+                <div class="form-group">
+                    <label for="limitA">Оқушылар саны</label>
+                    <input type="number" class="form-control" id="limitA" th:field="*{pupilLimit}">
+                </div>
+                <p>Schedules</p>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Day</th>
+                        <th scope="col">Hour</th>
+                        <th scope="col">Minute</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="schedule,i : ${elective.getSchedules()}">
+                        <th scope="row" th:text="${i.index} + 1"></th>
+                        <td>
+                            <input type="text" class="form-control"
+                                   disabled th:value="${schedule.getDay()}">
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" disabled
+                                   th:value="${schedule.getTime()} / 60 < 10 ? '0'+${schedule.getTime()} / 60 : ${schedule.getTime()} / 60">
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" disabled
+                                   th:value="${schedule.getTime()} % 60 < 10 ? '0'+${schedule.getTime()} % 60 : ${schedule.getTime()} % 60">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+                <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

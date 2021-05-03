@@ -8,9 +8,35 @@
 <body>
 <header th:insert="fragments/general.html :: header"></header>
 <div class="container-fluid">
-  <div class="row justify-content-center">
-    <h1>Welcome, <span th:text="${user.getFullName()}"></span></h1>
-  </div>
+    <div class="row">
+        <div class="col">
+            <h1>Welcome, <span th:text="${user.getFullName()}"></span></h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h4 class="h4">My electives</h4>
+
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Limit</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="elective, i : ${electives}">
+                    <th scope="row" th:text="${i.index + 1}"></th>
+                    <td>
+                        <a th:href="@{/elective/{id}(id=${elective.getId()})}" th:text="${elective.getName()}"></a>
+                    </td>
+                    <td th:text="${elective.getPupilLimit()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 </body>
 </html>
