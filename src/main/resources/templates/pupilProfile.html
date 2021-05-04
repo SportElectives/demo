@@ -11,6 +11,50 @@
     <div class="row justify-content-center">
         <h1>Welcome, <span th:text="${user.getFullName()}"></span></h1>
     </div>
+    <div class="row">
+        <div class="col">
+            <h4 class="h4">All available electives</h4>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="elective, i : ${electives}">
+                    <th scope="row" th:text="${i.index + 1}"></th>
+                    <td>
+                        <p th:if="${elective.hasPupil(user)}"
+                           th:text="${elective.getName()} +' - '+ ${elective.getInstructor().getFullName()}"></p>
+                        <a th:if="${elective.hasPupil(user)} == false" th:href="@{/elective/page/{id}(id=${elective.getId()})}"
+                           th:text="${elective.getName()} +' - '+ ${elective.getInstructor().getFullName()}"></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col">
+            <h4 class="h4">My electives</h4>
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="elective, i : ${myElectives}">
+                    <th scope="row" th:text="${i.index + 1}"></th>
+                    <td>
+                        <a th:href="@{/elective/page/{id}(id=${elective.getId()})}"
+                           th:text="${elective.getName()} +' - '+ ${elective.getInstructor().getFullName()}"></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>
 </body>
 </html>

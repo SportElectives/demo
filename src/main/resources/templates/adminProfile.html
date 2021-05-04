@@ -10,8 +10,34 @@
 <div class="container">
     <div class="row">
         <div class="col">
-            <a href="/user/admin/register">Регистрация</a>
-            <a href="/user/admin/elective/register">Элективы</a>
+            <div class="d-flex justify-content-around">
+                <a href="/user/admin/register">Регистрация</a>
+                <a href="/user/admin/elective/register">Элективы</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h4 class="h4">All electives</h4>
+
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Limit</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="elective, i : ${electives}">
+                    <th scope="row" th:text="${i.index + 1}"></th>
+                    <td>
+                        <a th:href="@{/elective/{id}(id=${elective.getId()})}" th:text="${elective.getName()}"></a>
+                    </td>
+                    <td th:text="${elective.getPupilLimit()}"></td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

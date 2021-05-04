@@ -57,7 +57,7 @@
             <form th:action="@{/elective/update/{id}/admin(id=${elective.getId()})}" th:method="POST" th:object="${elective}" class="mt-5">
                 <div class="form-group">
                     <label for="nameA">Атауы</label>
-                    <input type="text" class="form-control" disabled id="nameA" th:field="*{name}">
+                    <input type="text" class="form-control" id="nameA" th:field="*{name}">
                 </div>
                 <div class="form-group">
                     <label for="limitA">Оқушылар саны</label>

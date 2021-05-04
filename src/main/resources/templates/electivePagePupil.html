@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link th:insert="fragments/general.html :: bootstrapcss">
+</head>
+<body>
+<header th:insert="fragments/general.html :: header"></header>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <h2 class="h2" th:text="${elective.getName()} +' - '+ ${elective.getInstructor().getFullName()}"></h2>
+            <p>Schedules</p>
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Day</th>
+                    <th scope="col">Hour</th>
+                    <th scope="col">Minute</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="schedule,i : ${elective.getSchedules()}">
+                    <th scope="row" th:text="${i.index} + 1"></th>
+                    <td><p th:text="${schedule.getDay()}"></td>
+                    <td><p th:text="${schedule.getTime()} / 60 < 10 ? '0'+${schedule.getTime()} / 60 : ${schedule.getTime()} / 60"></td>
+                    <td><p th:text="${schedule.getTime()} % 60 < 10 ? '0'+${schedule.getTime()} % 60 : ${schedule.getTime()} % 60"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col text-center">
+            <p th:if="${elective.hasPupil(user)}">You already joined</p>
+            <a th:if="${elective.getPupilLimit()} > 0 and ${elective.hasPupil(user)} == false"
+               th:href="@{/elective/join/{id}(id=${elective.getId()})}">Join</a>
+            <p th:if="${elective.getPupilLimit()} == 0 and ${elective.hasPupil(user)} == false">Not available</p>
+        </div>
+    </div>
+</div>
+</body>
+</html>

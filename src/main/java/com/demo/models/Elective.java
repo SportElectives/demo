@@ -28,5 +28,21 @@ public class Elective {
     )
     private Set<Schedule> schedules = new HashSet<>();
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
+            name = "elective_pupils",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = {@JoinColumn(name = "user_id")}
+    )
+    private Set<User> pupils = new HashSet<>();
+
     private Integer pupilLimit;
+
+    public Boolean hasPupil(User pupil) {
+        for (User user: pupils) {
+            if (user.getId().equals(pupil.getId()))
+                return true;
+        }
+        return false;
+    }
 }

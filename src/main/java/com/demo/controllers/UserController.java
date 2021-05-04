@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Controller
 @RequestMapping("/user")
 public class UserController {
@@ -61,12 +64,23 @@ public class UserController {
     @GetMapping("/admin/profile")
     public String adminProfile(Model model, Authentication authentication) {
         model.addAttribute("user", userRepository.findByIin(authentication.getName()));
+        model.addAttribute("electives", electiveRepository.findAll());
         return "adminProfile";
     }
 
     @GetMapping("/pupil/profile")
     public String pupilProfile(Model model, Authentication authentication) {
-        model.addAttribute("user", userRepository.findByIin(authentication.getName()));
+        User pupil = userRepository.findByIin(authentication.getName());
+        model.addAttribute("user", pupil);
+        List<Elective> electiveList = electiveRepository.findAll();
+        model.addAttribute("electives", electiveList);
+        List<Elective> myElectives = new ArrayList<>();
+        for (Elective elective: electiveList) {
+            if (elective.hasPupil(pupil)) {
+                myElectives.add(elective);
+            }
+        }
+        model.addAttribute("myElectives", myElectives);
         return "pupilProfile";
     }
 

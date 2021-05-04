@@ -28,6 +28,9 @@
       <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item">
         <a class="nav-link" href="/user/admin/profile">Жеке кабинет</a>
       </li>
+      <li sec:authorize="hasRole('ROLE_PUPIL') || hasRole('ROLE_INSTRUCTOR')" class="nav-item">
+        <a class="nav-link" href="/calendar">Calendar</a>
+      </li>
     </ul>
   </div>
 </nav>

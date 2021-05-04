@@ -2,9 +2,11 @@ package com.demo.controllers;
 
 import com.demo.models.Elective;
 import com.demo.models.Schedule;
+import com.demo.models.User;
 import com.demo.repository.ElectiveRepository;
 import com.demo.repository.ScheduleRepository;
 import com.demo.repository.UserRepository;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -42,5 +44,26 @@ public class ElectiveController {
         elective.getSchedules().add(scheduleRepository.findByDayAndTime(day, time).orElse(null));
         electiveRepository.save(elective);
         return "redirect:/user/instructor/profile";
+    }
+
+    @GetMapping("/join/{id}")
+    public String joinElective(@PathVariable("id") Long id, Authentication authentication) {
+        User pupil = userRepository.findByIin(authentication.getName());
+        Elective elective = electiveRepository.findById(id).orElse(null);
+        if (elective != null) {
+            if (!elective.hasPupil(pupil) && elective.getPupilLimit() > 0) {
+                elective.getPupils().add(pupil);
+                elective.setPupilLimit(elective.getPupilLimit() - 1);
+                electiveRepository.save(elective);
+            }
+        }
+        return "redirect:/user/pupil/profile";
+    }
+
+    @GetMapping("/page/{id}")
+    public String showElectivePage(@PathVariable("id") Long id, Model model, Authentication authentication) {
+        model.addAttribute("user", userRepository.findByIin(authentication.getName()));
+        model.addAttribute("elective", electiveRepository.findById(id).orElse(null));
+        return "electivePagePupil";
     }
 }
