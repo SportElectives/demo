@@ -20,28 +20,28 @@
                     <input type="text" class="form-control" disabled id="name" th:field="*{name}">
                 </div>
                 <div class="form-group">
-                    <label for="limit">Оқушылар саны</label>
+                    <label for="limit">Қалған орын саны</label>
                     <input type="number" class="form-control" disabled id="limit" th:field="*{pupilLimit}">
                 </div>
                 <div class="form-group" >
-                    <label for="day">Day</label>
+                    <label for="day">Күн</label>
                     <select class="form-control" id="day" name="day">
-                        <option value="Monday">Monday</option>
-                        <option value="Tuesday">Tuesday</option>
-                        <option value="Wednesday">Wednesday</option>
-                        <option value="Thursday">Thursday</option>
-                        <option value="Friday">Friday</option>
+                        <option value="Monday">Дүйсенбі</option>
+                        <option value="Tuesday">Сейсенбі</option>
+                        <option value="Wednesday">Сәрсенбі</option>
+                        <option value="Thursday">Бейсенбі</option>
+                        <option value="Friday">Жұма</option>
                     </select>
                 </div>
                 <div class="row">
                     <div class="col">
-                        <label for="hour">Hour</label>
+                        <label for="hour">Сағаты</label>
                         <select class="form-control" name="hour" id="hour">
                             <option th:each="i: ${#numbers.sequence(9, 18)}" th:value="${i}" th:text="${i}"></option>
                         </select>
                     </div>
                     <div class="col">
-                        <label for="minute">Minute</label>
+                        <label for="minute">Минуты</label>
                         <select size="1" class="form-control" name="minute" id="minute">
                             <option th:each="i: ${#numbers.sequence(0, 59)}" th:value="${i}" th:text="${i} < 10 ? '0'+${i} : ${i}"></option>
                         </select>
@@ -49,7 +49,7 @@
                 </div>
                 <br>
                 <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-primary">Енгізу</button>
             </form>
         </div>
 
@@ -60,17 +60,17 @@
                     <input type="text" class="form-control" id="nameA" th:field="*{name}">
                 </div>
                 <div class="form-group">
-                    <label for="limitA">Оқушылар саны</label>
+                    <label for="limitA">Қалған орын саны</label>
                     <input type="number" class="form-control" id="limitA" th:field="*{pupilLimit}">
                 </div>
-                <p>Schedules</p>
+                <p>Кесте</p>
                 <table class="table">
                     <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Day</th>
-                        <th scope="col">Hour</th>
-                        <th scope="col">Minute</th>
+                        <th scope="col">Күн</th>
+                        <th scope="col">Сағат</th>
+                        <th scope="col">Минут</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -92,7 +92,7 @@
                     </tbody>
                 </table>
                 <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
-                <button type="submit" class="btn btn-primary">Update</button>
+                <button type="submit" class="btn btn-primary">Енгізу</button>
             </form>
         </div>
     </div>

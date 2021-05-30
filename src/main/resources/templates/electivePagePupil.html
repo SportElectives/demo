@@ -11,14 +11,14 @@
     <div class="row">
         <div class="col">
             <h2 class="h2" th:text="${elective.getName()} +' - '+ ${elective.getInstructor().getFullName()}"></h2>
-            <p>Schedules</p>
+            <p>Кесте</p>
             <table class="table">
                 <thead>
                 <tr>
                     <th scope="col">#</th>
-                    <th scope="col">Day</th>
-                    <th scope="col">Hour</th>
-                    <th scope="col">Minute</th>
+                    <th scope="col">Күн</th>
+                    <th scope="col">Сағат</th>
+                    <th scope="col">Минут</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,10 +34,10 @@
     </div>
     <div class="row">
         <div class="col text-center">
-            <p th:if="${elective.hasPupil(user)}">You already joined</p>
+            <p th:if="${elective.hasPupil(user)}">Сіз тіркеліп қойдыңыз</p>
             <a th:if="${elective.getPupilLimit()} > 0 and ${elective.hasPupil(user)} == false"
-               th:href="@{/elective/join/{id}(id=${elective.getId()})}">Join</a>
-            <p th:if="${elective.getPupilLimit()} == 0 and ${elective.hasPupil(user)} == false">Not available</p>
+               th:href="@{/elective/join/{id}(id=${elective.getId()})}">Қосылу</a>
+            <p th:if="${elective.getPupilLimit()} == 0 and ${elective.hasPupil(user)} == false">Қол жетімсіз</p>
         </div>
     </div>
 </div>

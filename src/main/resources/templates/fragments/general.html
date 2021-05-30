@@ -9,7 +9,7 @@
 </head>
 <body>
 <nav th:fragment="header" class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="/">Electives</a>
+  <a class="navbar-brand" href="/">Элективтер</a>
 
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
@@ -29,7 +29,7 @@
         <a class="nav-link" href="/user/admin/profile">Жеке кабинет</a>
       </li>
       <li sec:authorize="hasRole('ROLE_PUPIL') || hasRole('ROLE_INSTRUCTOR')" class="nav-item">
-        <a class="nav-link" href="/calendar/">Calendar</a>
+        <a class="nav-link" href="/calendar/">Күнтізбе</a>
       </li>
     </ul>
   </div>

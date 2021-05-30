@@ -1,7 +1,6 @@
 package com.demo.controllers;
 
 import com.demo.models.Elective;
-import com.demo.models.Schedule;
 import com.demo.models.User;
 import com.demo.repository.ElectiveRepository;
 import com.demo.repository.UserRepository;
