@@ -55,4 +55,11 @@ public class Elective {
         }
         return false;
     }
+
+    public boolean hasSchedule(Long id) {
+        for (CancelledDays cancelledDay: cancelledDays) {
+            if (cancelledDay.containSchedule(id)) return true;
+        }
+        return false;
+    }
 }
