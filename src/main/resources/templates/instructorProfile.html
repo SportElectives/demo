@@ -2,20 +2,17 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Жеке кабинет</title>
+    <title>Инструктор | Жеке кабинет</title>
     <link th:insert="fragments/general.html :: bootstrapcss">
+    <link th:insert="fragments/general.html :: bootstrapjs">
 </head>
 <body>
 <header th:insert="fragments/general.html :: header"></header>
-<div class="container-fluid">
-    <div class="row">
+<div class="container">
+    <h1 class="m-3">Қош келдіңіз, <span th:text="${user.getFullName()}"></span></h1>
+    <div class="row mt-5">
         <div class="col">
-            <h1>Қош келдіңіз, <span th:text="${user.getFullName()}"></span></h1>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <h4 class="h4">Менің элективтерім</h4>
+            <center><h4 class="h4">Менің элективтерім</h4></center>
 
             <table class="table">
                 <thead class="thead-dark">
@@ -29,7 +26,7 @@
                 <tr th:each="elective, i : ${electives}">
                     <th scope="row" th:text="${i.index + 1}"></th>
                     <td>
-                        <a th:href="@{/elective/{id}(id=${elective.getId()})}" th:text="${elective.getName()}"></a>
+                        <a th:href="@{/elective/{id}(id=${elective.getId()})}" th:text="${elective.getType().getName()}"></a>
                     </td>
                     <td th:text="${elective.getPupilLimit()}"></td>
                 </tr>

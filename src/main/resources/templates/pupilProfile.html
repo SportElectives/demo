@@ -2,17 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Жеке кабинет</title>
+    <title>Оқушы  | жеке кабинет</title>
     <link th:insert="fragments/general.html :: bootstrapcss">
+    <link th:insert="fragments/general.html :: bootstrapjs">
 </head>
 <body>
 <header th:insert="fragments/general.html :: header"></header>
-<div class="container-fluid">
-    <div class="row justify-content-center">
-        <h1>Қош келдіңіз, <span th:text="${user.getFullName()}"></span></h1>
-    </div>
-    <div class="row">
-        <div class="col">
+<div class="container">
+    <h1 class="m-3">Қош келдіңіз, <span th:text="${user.getFullName()}"></span></h1>
+    <div class="row mt-5">
+        <div class="col text-center">
             <h4 class="h4">Қол жетімді элективтер</h4>
             <table class="table">
                 <thead class="thead-dark">
@@ -26,15 +25,15 @@
                     <th scope="row" th:text="${i.index + 1}"></th>
                     <td>
                         <p th:if="${elective.hasPupil(user)}"
-                           th:text="${elective.getName()} +' - '+ ${elective.getInstructor().getFullName()}"></p>
+                           th:text="${elective.getType().getName()} +' - '+ ${elective.getInstructor().getFullName()}"></p>
                         <a th:if="${elective.hasPupil(user)} == false" th:href="@{/elective/page/{id}(id=${elective.getId()})}"
-                           th:text="${elective.getName()} +' - '+ ${elective.getInstructor().getFullName()}"></a>
+                           th:text="${elective.getType().getName()} +' - '+ ${elective.getInstructor().getFullName()}"></a>
                     </td>
                 </tr>
                 </tbody>
             </table>
         </div>
-        <div class="col">
+        <div class="col text-center">
             <h4 class="h4">Менің элективтерім</h4>
             <table class="table">
                 <thead class="thead-dark">
@@ -48,7 +47,7 @@
                     <th scope="row" th:text="${i.index + 1}"></th>
                     <td>
                         <a th:href="@{/elective/page/{id}(id=${elective.getId()})}"
-                           th:text="${elective.getName()} +' - '+ ${elective.getInstructor().getFullName()}"></a>
+                           th:text="${elective.getType().getName()} +' - '+ ${elective.getInstructor().getFullName()}"></a>
                     </td>
                 </tr>
                 </tbody>

@@ -1,6 +1,7 @@
 package com.demo.controllers;
 
 import com.demo.models.Elective;
+import com.demo.models.Schedule;
 import com.demo.models.User;
 import com.demo.repository.ElectiveRepository;
 import com.demo.repository.UserRepository;
@@ -31,16 +32,23 @@ public class CalendarController {
         User user = userRepository.findByIin(authentication.getName());
         List<Elective> myElectives = new ArrayList<>();
         List<Elective> allElectives = electiveRepository.findAll();
+        Set<String> uniqueDays = new HashSet<>();
         if (user.getRole().getName().equals("ROLE_PUPIL")) {
             for (Elective elective : allElectives) {
                 if (elective.hasPupil(user)) {
                     myElectives.add(elective);
+                    for (Schedule schedule : elective.getSchedules()) {
+                        uniqueDays.add(schedule.getDay());
+                    }
                 }
             }
         } else if (user.getRole().getName().equals("ROLE_INSTRUCTOR")) {
             for (Elective elective : allElectives) {
                 if (elective.getInstructor().equals(user)) {
                     myElectives.add(elective);
+                    for (Schedule schedule : elective.getSchedules()) {
+                        uniqueDays.add(schedule.getDay());
+                    }
                 }
             }
         }
@@ -66,6 +74,7 @@ public class CalendarController {
         String[] daysOfWeek = new String[] {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
         model.addAttribute("daysOfWeek", daysOfWeek);
         model.addAttribute("electives", myElectives);
+        model.addAttribute("uniqueDays",uniqueDays);
         return "calendar";
     }
 }

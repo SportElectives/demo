@@ -14,7 +14,9 @@ public class Elective {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    @ManyToOne
+    @JoinColumn(name = "type_id", nullable = false)
+    private Type type;
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)

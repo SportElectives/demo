@@ -2,12 +2,49 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
-    <title>Electives</title>
+    <title>Элективтер | Басты беті</title>
     <link th:insert="fragments/general.html :: bootstrapcss">
+    <link rel="stylesheet" href="/css/carousel.css">
+    <link th:insert="fragments/general.html :: bootstrapjs">
 </head>
 <body>
 <header th:insert="fragments/general.html :: header"></header>
 <div class="container">
+    <div id="myCarousel" class="carousel slide my-4" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="0" class="active" aria-current="true"
+                    aria-label="Slide 1"></button>
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            <button type="button" data-bs-target="#myCarousel" data-bs-slide-to="2" aria-label="Slide 3"></button>
+        </div>
+        <div class="carousel-inner">
+            <div th:attr="class=${type.getId() == 1 ? 'carousel-item active' : 'carousel-item'}" th:each="type: ${types}" th:style="'background:url(' + ${type.getBackground_url()} + '); background-size: cover;'">
+                <div class="container">
+                    <div class="carousel-caption">
+                        <h1 th:text="${type.getName()}"></h1>
+                        <p th:text="${type.getDescription()}"></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#myCarousel" data-bs-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Алдыңғы</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#myCarousel" data-bs-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Келесі</span>
+        </button>
+    </div>
+    <div class="row p-5 text-center justify-content-center">
+        <div class="card m-3 p-3" th:each="instructor: ${instructors}" style="width: 18rem;">
+            <img src="https://vk-wiki.ru/wp-content/uploads/2019/06/user-1.png" class="card-img-top">
+            <div class="card-body">
+                <h5 class="card-title" th:text="${instructor.getFullName()}"></h5>
+                <p class="card-text" th:text="${instructor.getEmail()}"></p>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>

@@ -1,9 +1,11 @@
 package com.demo.controllers;
 
 import com.demo.models.Elective;
+import com.demo.models.Type;
 import com.demo.models.User;
 import com.demo.repository.ElectiveRepository;
 import com.demo.repository.RoleRepository;
+import com.demo.repository.TypeRepository;
 import com.demo.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -24,13 +26,15 @@ public class UserController {
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final ElectiveRepository electiveRepository;
+    private final TypeRepository typeRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserController(UserRepository userRepository, RoleRepository roleRepository, ElectiveRepository electiveRepository) {
+    public UserController(UserRepository userRepository, RoleRepository roleRepository, ElectiveRepository electiveRepository, TypeRepository typeRepository) {
         this.userRepository = userRepository;
         this.roleRepository = roleRepository;
         this.electiveRepository = electiveRepository;
+        this.typeRepository = typeRepository;
         this.passwordEncoder = new BCryptPasswordEncoder();
     }
 
@@ -52,12 +56,25 @@ public class UserController {
     public String electiveRegistration(Model model) {
         model.addAttribute("elective", new Elective());
         model.addAttribute("instructors", userRepository.findByRole(roleRepository.findByName("ROLE_INSTRUCTOR")));
+        model.addAttribute("types", typeRepository.findAll());
         return "electiveRegistration";
     }
 
     @PostMapping("/admin/elective/register")
     public String electiveRegistration(Elective elective) {
         electiveRepository.save(elective);
+        return "redirect:/user/admin/profile";
+    }
+
+    @GetMapping("/admin/type/register")
+    public String typeRegistration(Model model) {
+        model.addAttribute("type", new Type());
+        return "typeRegistration";
+    }
+
+    @PostMapping("/admin/type/register")
+    public String typeRegistration(Type type) {
+        typeRepository.save(type);
         return "redirect:/user/admin/profile";
     }
 

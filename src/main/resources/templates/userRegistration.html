@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <link th:insert="fragments/general.html :: bootstrapcss">
+  <link th:insert="fragments/general.html :: bootstrapjs">
   <meta charset="UTF-8">
-  <title>Тіркеу беті</title>
+  <title>Қолданушы | Тіркеу беті</title>
 </head>
 <body>
 <header th:insert="fragments/general.html :: header"></header>
@@ -11,30 +12,30 @@
   <div class="row">
     <div class="col-4 offset-4">
       <form th:action="@{/user/admin/register}" th:method="POST" th:object="${user}" class="mt-5">
-        <div class="form-group">
-          <label for="iin">ЖСН</label>
+        <div class="form-group my-2">
+          <label for="iin" class="fs-5 my-2">ЖСН</label>
           <input type="text" class="form-control" id="iin" th:field="*{iin}">
         </div>
-        <div class="form-group">
-          <label for="full_name">Аты-жөні</label>
+        <div class="form-group my-2">
+          <label for="full_name" class="fs-5 my-2">Аты-жөні</label>
           <input type="text" class="form-control" id="full_name" th:field="*{fullName}">
         </div>
-        <div class="form-group">
-          <label for="email">Электронды почта</label>
+        <div class="form-group my-2">
+          <label for="email" class="fs-5 my-2">Электронды почта</label>
           <input type="email" class="form-control" id="email" th:field="*{email}">
         </div>
-        <div class="form-group">
-          <label for="password">Құпия сөз</label>
+        <div class="form-group my-2">
+          <label for="password" class="fs-5 my-2">Құпия сөз</label>
           <input type="password" class="form-control" id="password" th:field="*{password}">
         </div>
-        <div class="form-group">
-          <label for="role">Роль</label>
+        <div class="form-group my-2">
+          <label for="role" class="fs-5 my-2">Роль</label>
           <select class="form-control" id="role" th:field="*{role}">
             <option th:value="${role.getId()}" th:each="role: ${roles}" th:text="${role.getName().substring(5)}"></option>
           </select>
         </div>
         <input type="hidden" name="_csrf" value="{{_csrf.token}}" />
-        <button type="submit" class="btn btn-primary">Тіркеу</button>
+        <center><button type="submit" class="btn btn-primary">Тіркеу</button></center>
       </form>
     </div>
   </div>

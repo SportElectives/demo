@@ -2,6 +2,7 @@ package com.demo.controllers;
 
 import com.demo.models.Elective;
 import com.demo.models.Schedule;
+import com.demo.models.Type;
 import com.demo.models.User;
 import com.demo.repository.ElectiveRepository;
 import com.demo.repository.ScheduleRepository;
@@ -26,7 +27,14 @@ public class ElectiveController {
 
     @GetMapping("/{id}")
     public String showElective(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("elective", electiveRepository.findById(id).orElse(null));
+        Elective elective = electiveRepository.findById(id).orElse(null);
+        model.addAttribute("elective", elective);
+        if (elective != null) {
+            User instructor = elective.getInstructor();
+            Type type = elective.getType();
+            model.addAttribute("instructor", instructor.getFullName());
+            model.addAttribute("type", type.getName());
+        }
         return "electivePage";
     }
 
@@ -46,14 +54,23 @@ public class ElectiveController {
         return "redirect:/user/instructor/profile";
     }
 
+    @PostMapping("/update/{id}/admin")
+    public String update(@PathVariable("id") Long id, @RequestParam("pupilLimit") Integer pupilLimit) {
+        Elective elective = electiveRepository.findById(id).orElse(null);
+        if (elective != null && pupilLimit >= 0 && pupilLimit <= 40) {
+            elective.setPupilLimit(pupilLimit);
+            electiveRepository.save(elective);
+        }
+        return "redirect:/user/admin/profile";
+    }
+
     @GetMapping("/join/{id}")
     public String joinElective(@PathVariable("id") Long id, Authentication authentication) {
         User pupil = userRepository.findByIin(authentication.getName());
         Elective elective = electiveRepository.findById(id).orElse(null);
         if (elective != null) {
-            if (!elective.hasPupil(pupil) && elective.getPupilLimit() > 0) {
+            if (!elective.hasPupil(pupil) && (elective.getPupilLimit() - elective.getPupils().size()) > 0) {
                 elective.getPupils().add(pupil);
-                elective.setPupilLimit(elective.getPupilLimit() - 1);
                 electiveRepository.save(elective);
             }
         }

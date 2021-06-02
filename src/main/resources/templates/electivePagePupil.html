@@ -2,15 +2,16 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org" >
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Электив | Оқушы беті</title>
     <link th:insert="fragments/general.html :: bootstrapcss">
+    <link th:insert="fragments/general.html :: bootstrapjs">
 </head>
 <body>
 <header th:insert="fragments/general.html :: header"></header>
 <div class="container">
     <div class="row">
         <div class="col">
-            <h2 class="h2" th:text="${elective.getName()} +' - '+ ${elective.getInstructor().getFullName()}"></h2>
+            <h2 class="h2" th:text="${elective.getType().getName()} +' - '+ ${elective.getInstructor().getFullName()}"></h2>
             <p>Кесте</p>
             <table class="table">
                 <thead>
@@ -35,9 +36,9 @@
     <div class="row">
         <div class="col text-center">
             <p th:if="${elective.hasPupil(user)}">Сіз тіркеліп қойдыңыз</p>
-            <a th:if="${elective.getPupilLimit()} > 0 and ${elective.hasPupil(user)} == false"
+            <a th:if="${elective.getPupilLimit() - elective.getPupils().size()} > 0 and ${elective.hasPupil(user)} == false"
                th:href="@{/elective/join/{id}(id=${elective.getId()})}">Қосылу</a>
-            <p th:if="${elective.getPupilLimit()} == 0 and ${elective.hasPupil(user)} == false">Қол жетімсіз</p>
+            <p th:if="${elective.getPupilLimit() - elective.getPupils().size()} == 0 and ${elective.hasPupil(user)} == false">Қол жетімсіз</p>
         </div>
     </div>
 </div>

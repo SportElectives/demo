@@ -3,16 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <link th:insert="fragments/general.html :: bootstrapcss">
-    <title>Admin</title>
+    <link th:insert="fragments/general.html :: bootstrapjs">
+    <title>Әкімші беті</title>
 </head>
 <body>
 <header th:insert="fragments/general.html :: header"></header>
 <div class="container">
     <div class="row">
-        <div class="col">
+        <div class="col p-4">
             <div class="d-flex justify-content-around">
-                <a href="/user/admin/register">Тіркеу</a>
-                <a href="/user/admin/elective/register">Элективтер</a>
+                <a href="/user/admin/register" class="btn btn-outline-primary">Қолданушы тіркеу</a>
+                <a href="/user/admin/elective/register" class="btn btn-outline-primary">Электив тіркеу</a>
+                <a href="/user/admin/type/register" class="btn btn-outline-primary">Тип тіркеу</a>
             </div>
         </div>
     </div>
@@ -25,6 +27,7 @@
                 <tr>
                     <th scope="col">#</th>
                     <th scope="col">Атауы</th>
+                    <th scope="col">Инструктор</th>
                     <th scope="col">Қалған орын саны</th>
                 </tr>
                 </thead>
@@ -32,8 +35,9 @@
                 <tr th:each="elective, i : ${electives}">
                     <th scope="row" th:text="${i.index + 1}"></th>
                     <td>
-                        <a th:href="@{/elective/{id}(id=${elective.getId()})}" th:text="${elective.getName()}"></a>
+                        <a th:href="@{/elective/{id}(id=${elective.getId()})}" th:text="${elective.getType().getName()}"></a>
                     </td>
+                    <td th:text="${elective.getInstructor().getFullName()}"></td>
                     <td th:text="${elective.getPupilLimit()}"></td>
                 </tr>
                 </tbody>
