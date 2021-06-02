@@ -25,15 +25,31 @@
                 data-bs-toggle="dropdown" aria-expanded="false" th:text="${i}"></button>
         <button th:if="${uniqueDays.contains(daysOfWeek[(prevLastDayIndex+i)%7]) == false}" class="btn-custom" type="button" th:text="${i}"></button>
         <ul style="position: absolute;" class="dropdown-menu" aria-labelledby="dropdownMenuButton1" th:each="elective: ${electives}">
-            <li sec:authorize="hasRole('ROLE_PUPIL')">
-                <a class="dropdown-item" th:href="@{/elective/page/{id}(id=${elective.getId()})}" th:each="schedule: ${elective.getSchedules()}"
-                   th:if='${schedule.getDay().equals(daysOfWeek[(prevLastDayIndex+i)%7])}'
-                   th:text="${elective.getType().getName()} + '-' +  ${elective.getInstructor().getFullName()} + '-' + (${schedule.getTime()} / 60 < 10 ? '0'+${schedule.getTime()} / 60 : ${schedule.getTime()} / 60) + ':' + (${schedule.getTime()} % 60 < 10 ? '0'+${schedule.getTime()} % 60 : ${schedule.getTime()} % 60)"></a>
+            <li sec:authorize="hasRole('ROLE_PUPIL')" class="dropdown-item d-flex" th:each="schedule: ${elective.getSchedules()}" th:if="${schedule.getDay().equals(daysOfWeek[(prevLastDayIndex+i)%7])}">
+                <div th:if="${elective.getCancelledDays().size() != 0}" th:each="cancelledDay: ${elective.getCancelledDays()}">
+                    <button th:if="${month.equals(cancelledDay.getMonth()) and i.equals(cancelledDay.getDay()) and cancelledDay.containSchedule(schedule.getId())}" class="btn btn-warning">Электив бүгінге тоқтатылды</button>
+                    <a th:if="${!(month.equals(cancelledDay.getMonth()) and i.equals(cancelledDay.getDay()) and cancelledDay.containSchedule(schedule.getId()))}" class="btn btn-primary" th:href="@{/elective/page/{id}(id=${elective.getId()})}"
+                       th:text="${elective.getType().getName()} + '-' +  ${elective.getInstructor().getFullName()} + '-' + (${schedule.getTime() / 60} < 10 ? '0'+${schedule.getTime() / 60} : ${schedule.getTime() / 60}) + ':' + (${schedule.getTime() % 60} < 10 ? '0'+${schedule.getTime() % 60} : ${schedule.getTime() % 60})"></a>
+                </div>
+                <div th:if="${elective.getCancelledDays().size() == 0}">
+                    <a class="btn btn-primary" th:href="@{/elective/page/{id}(id=${elective.getId()})}"
+                       th:text="${elective.getType().getName()} + '-' +  ${elective.getInstructor().getFullName()} + '-' + (${schedule.getTime() / 60} < 10 ? '0'+${schedule.getTime() / 60} : ${schedule.getTime() / 60}) + ':' + (${schedule.getTime() % 60} < 10 ? '0'+${schedule.getTime() % 60} : ${schedule.getTime() % 60})"></a>
+                </div>
             </li>
-            <li sec:authorize="hasRole('ROLE_INSTRUCTOR')">
-                <a class="dropdown-item" th:href="@{/elective/{id}(id=${elective.getId()})}" th:each="schedule: ${elective.getSchedules()}"
-                   th:if='${schedule.getDay().equals(daysOfWeek[(prevLastDayIndex+i)%7])}'
-                   th:text="${elective.getType().getName()} + '-' +  ${elective.getInstructor().getFullName()} + '-' + (${schedule.getTime()} / 60 < 10 ? '0'+${schedule.getTime()} / 60 : ${schedule.getTime()} / 60) + ':' + (${schedule.getTime()} % 60 < 10 ? '0'+${schedule.getTime()} % 60 : ${schedule.getTime()} % 60)"></a>
+            <li sec:authorize="hasRole('ROLE_INSTRUCTOR')" class="dropdown-item d-flex" th:each="schedule: ${elective.getSchedules()}" th:if="${schedule.getDay().equals(daysOfWeek[(prevLastDayIndex+i)%7])}">
+                <div th:if="${elective.getCancelledDays().size() != 0}" th:each="cancelledDay: ${elective.getCancelledDays()}">
+                    <button th:if="${month.equals(cancelledDay.getMonth()) and i.equals(cancelledDay.getDay()) and cancelledDay.containSchedule(schedule.getId())}" class="btn btn-warning">Электив бүгінге тоқтатылды</button>
+                    <a th:if="${!(month.equals(cancelledDay.getMonth()) and i.equals(cancelledDay.getDay()) and cancelledDay.containSchedule(schedule.getId()))}" class="btn btn-primary" th:href="@{/elective/{id}(id=${elective.getId()})}"
+                       th:text="${elective.getType().getName()} + '-' +  ${elective.getInstructor().getFullName()} + '-' + (${schedule.getTime() / 60} < 10 ? '0'+${schedule.getTime() / 60} : ${schedule.getTime() / 60}) + ':' + (${schedule.getTime() % 60} < 10 ? '0'+${schedule.getTime() % 60} : ${schedule.getTime() % 60})"></a>
+                    <a th:if="${!(month.equals(cancelledDay.getMonth()) and i.equals(cancelledDay.getDay()) and cancelledDay.containSchedule(schedule.getId()))}" class="btn btn-danger" th:href="@{/elective/{id}/{day}/{schedule_id}(id=${elective.getId()}, day=${i}, schedule_id=${schedule.getId()})}"
+                       th:text="Болдырмау"></a>
+                </div>
+                <div th:if="${elective.getCancelledDays().size() == 0}">
+                    <a class="btn btn-primary" th:href="@{/elective/{id}(id=${elective.getId()})}"
+                       th:text="${elective.getType().getName()} + '-' +  ${elective.getInstructor().getFullName()} + '-' + (${schedule.getTime() / 60} < 10 ? '0'+${schedule.getTime() / 60} : ${schedule.getTime() / 60}) + ':' + (${schedule.getTime() % 60} < 10 ? '0'+${schedule.getTime() % 60} : ${schedule.getTime() % 60})"></a>
+                    <a class="btn btn-danger" th:href="@{/elective/{id}/{day}/{schedule_id}(id=${elective.getId()}, day=${i}, schedule_id=${schedule.getId()})}"
+                       th:text="Болдырмау"></a>
+                </div>
             </li>
             <li >
             </li>

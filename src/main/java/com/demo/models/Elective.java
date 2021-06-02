@@ -32,6 +32,14 @@ public class Elective {
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
+            name = "elective_cancelled_days",
+            joinColumns = @JoinColumn(name = "id"),
+            inverseJoinColumns = {@JoinColumn(name = "cancelled_day_id")}
+    )
+    private Set<CancelledDays> cancelledDays = new HashSet<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(
             name = "elective_pupils",
             joinColumns = @JoinColumn(name = "id"),
             inverseJoinColumns = {@JoinColumn(name = "user_id")}

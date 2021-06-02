@@ -62,19 +62,22 @@ public class CalendarController {
         int prevLastDayIndex = prevLastDay.getDay();
         int lastDayIndex = lastDay.getDay();
         int nextDays = 7 - lastDayIndex;
+        String[] months = new String[]{"Қаңтар", "Ақпан", "Наурыз", "Сәуір", "Мамыр", "Маусым", "Шілде",
+                "Тамыз", "Қыркүйек", "Қазан", "Қараша", "Желтоқсан"};
 
         model.addAttribute("lastDay", lastDay.getDate());
         model.addAttribute("prevLastDay", prevLastDay.getDate());
         model.addAttribute("prevLastDayIndex", prevLastDayIndex);
         model.addAttribute("lastDayIndex", lastDay.getDay());
         model.addAttribute("nextDays", nextDays);
-        model.addAttribute("month", LocalDate.now().getMonth());
+        model.addAttribute("month", months[LocalDate.now().getMonth().getValue()-1]);
         model.addAttribute("day", LocalDate.now().getDayOfMonth());
-        model.addAttribute("weekDays", DayOfWeek.values());
-        String[] daysOfWeek = new String[] {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+        String[] weekDays = new String[]{"Дүйсенбі", "Сейсенбі", "Сәрсенбі", "Бейсенбі", "Жұма", "Сенбі", "Жексенбі"};
+        model.addAttribute("weekDays", weekDays);
+        String[] daysOfWeek = new String[]{"Жексенбі", "Дүйсенбі", "Сейсенбі", "Сәрсенбі", "Бейсенбі", "Жұма", "Сенбі"};
         model.addAttribute("daysOfWeek", daysOfWeek);
         model.addAttribute("electives", myElectives);
-        model.addAttribute("uniqueDays",uniqueDays);
+        model.addAttribute("uniqueDays", uniqueDays);
         return "calendar";
     }
 }

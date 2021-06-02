@@ -28,14 +28,44 @@
                     <label for="limit">Қалған орын саны</label>
                     <input type="number" class="form-control" disabled id="limit" th:value="${elective.getPupilLimit()}">
                 </div>
+                <p>Кесте</p>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Күн</th>
+                        <th scope="col">Сағат</th>
+                        <th scope="col">Минут</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="schedule,i : ${elective.getSchedules()}">
+                        <th scope="row" th:text="${i.index} + 1"></th>
+                        <td>
+                            <input type="text" class="form-control"
+                                   disabled th:value="${schedule.getDay()}">
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" disabled
+                                   th:value="${schedule.getTime() / 60} < 10 ? '0'+${schedule.getTime() / 60} : ${schedule.getTime() / 60}">
+                        </td>
+                        <td>
+                            <input type="number" class="form-control" disabled
+                                   th:value="${schedule.getTime() % 60} < 10 ? '0'+${schedule.getTime() % 60} : ${schedule.getTime() % 60}">
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
                 <div class="form-group" >
                     <label for="day">Күн</label>
                     <select class="form-control" id="day" name="day">
-                        <option value="Monday">Дүйсенбі</option>
-                        <option value="Tuesday">Сейсенбі</option>
-                        <option value="Wednesday">Сәрсенбі</option>
-                        <option value="Thursday">Бейсенбі</option>
-                        <option value="Friday">Жұма</option>
+                        <option value="Дүйсенбі">Дүйсенбі</option>
+                        <option value="Сейсенбі">Сейсенбі</option>
+                        <option value="Сәрсенбі">Сәрсенбі</option>
+                        <option value="Бейсенбі">Бейсенбі</option>
+                        <option value="Жұма">Жұма</option>
+                        <option value="Сенбі">Сенбі</option>
+                        <option value="Жексенбі">Жексенбі</option>
                     </select>
                 </div>
                 <div class="row">
@@ -91,11 +121,11 @@
                         </td>
                         <td>
                             <input type="number" class="form-control" disabled
-                                   th:value="${schedule.getTime()} / 60 < 10 ? '0'+${schedule.getTime()} / 60 : ${schedule.getTime()} / 60">
+                                   th:value="${schedule.getTime() / 60} < 10 ? '0'+${schedule.getTime() / 60} : ${schedule.getTime() / 60}">
                         </td>
                         <td>
                             <input type="number" class="form-control" disabled
-                                   th:value="${schedule.getTime()} % 60 < 10 ? '0'+${schedule.getTime()} % 60 : ${schedule.getTime()} % 60">
+                                   th:value="${schedule.getTime() % 60} < 10 ? '0'+${schedule.getTime() % 60} : ${schedule.getTime() % 60}">
                         </td>
                     </tr>
                     </tbody>
